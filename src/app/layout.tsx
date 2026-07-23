@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import WhatsAppButton from "@/components/whatsapp-button";
+import MobileBottomNav from "@/components/mobile-bottom-nav";
 import { siteConfig } from "@/config/site";
 
 const geistSans = Geist({
@@ -58,10 +59,11 @@ export default function RootLayout({
       >
         <div className="min-h-screen flex flex-col">
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pb-0 md:pb-0">{children}</main>
           <Footer />
         </div>
         <WhatsAppButton />
+        <MobileBottomNav />
       </body>
     </html>
   );

@@ -74,8 +74,12 @@ export default function ContactPageClient() {
                       Gracias por contactar FEMAR Logistics. Le responderemos en menos de 24 horas.
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Si necesita respuesta inmediata, llame al {siteConfig.phone}
+                      Si necesita respuesta inmediata, llame al {siteConfig.phone} o escriba por WhatsApp
                     </p>
+                    <a href={siteConfig.whatsappLink} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-green-500 text-white rounded-lg font-bold text-sm hover:bg-green-600 transition-colors">
+                      <MessageCircle className="w-4 h-4" /> WhatsApp directo
+                    </a>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="glass-card-light p-8 md:p-10 space-y-6 relative overflow-hidden">
@@ -104,7 +108,7 @@ export default function ContactPageClient() {
                         <label htmlFor="phone" className="block text-sm font-semibold text-femar-navy mb-2">Teléfono</label>
                         <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleChange}
                           className="w-full px-4 py-3 rounded-xl border border-femar-navy/10 bg-white text-femar-navy focus:outline-none focus:border-femar-orange focus:ring-4 focus:ring-femar-orange/10 transition-all shadow-sm"
-                          placeholder="+51 999 999 999" />
+                          placeholder="+51 959 265 574" />
                       </div>
                     </div>
                     <div>
@@ -184,6 +188,7 @@ export default function ContactPageClient() {
                       <MessageCircle className="w-10 h-10" />
                       <div>
                         <h3 className="font-bold text-lg">Chat por WhatsApp</h3>
+                        <p className="text-white/80 text-sm">{siteConfig.whatsappNumber}</p>
                         <p className="text-white/80 text-sm">Respuesta inmediata</p>
                       </div>
                     </div>
@@ -195,25 +200,53 @@ export default function ContactPageClient() {
         </div>
       </section>
 
-      {/* Map */}
+      {/* Google Maps Embed */}
       <section id="informacion" className="py-24 md:py-32 mesh-gradient-section relative overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="text-center mb-12">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/10 text-femar-orange rounded-full text-sm font-semibold mb-6 border border-femar-orange/20">
+              <MapPin className="w-4 h-4" /> Ubicación
+            </span>
             <h2 className="text-4xl md:text-5xl font-bold text-femar-navy mb-4 tracking-tight">
               Nuestra <span className="gradient-text">ubicación</span>
             </h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Visite nuestras oficinas en Lima, Perú. Estamos ubicados en una zona estratégica para su atención.
+            </p>
           </AnimatedSection>
           <AnimatedSection>
-            <div className="mesh-gradient-hero rounded-2xl aspect-[16/9] max-h-[400px] flex items-center justify-center relative overflow-hidden grid-pattern">
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-[30%] left-[30%] w-[200px] h-[200px] bg-femar-orange/10 rounded-full blur-[60px]" />
-              </div>
-              <div className="text-center relative">
-                <div className="w-16 h-16 bg-femar-orange/15 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <MapPin className="w-8 h-8 text-femar-orange" />
+            <div className="rounded-2xl overflow-hidden shadow-xl shadow-femar-navy/10 border border-femar-navy/8 relative">
+              {/* Google Maps iframe embed */}
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.9!2d-77.0!3d-12.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDAwJzAwLjAiUyA3N8KwMDAnMDAuMCJX!5e0!3m2!1ses!2spe!4v1"
+                width="100%"
+                height="400"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Ubicación FEMAR Logistics - Lima, Perú"
+                className="w-full"
+              />
+              {/* Map overlay card */}
+              <div className="absolute bottom-4 left-4 right-4 md:left-8 md:right-auto md:max-w-xs glass-card-light p-5 shadow-lg">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 bg-femar-orange rounded-xl flex items-center justify-center shadow-md shadow-femar-orange/20">
+                    <MapPin className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-femar-navy text-sm">FEMAR Logistics SAC</h4>
+                    <p className="text-xs text-muted-foreground">{siteConfig.address}</p>
+                  </div>
                 </div>
-                <p className="font-bold text-white text-xl">{siteConfig.address}</p>
-                <p className="text-white/50 text-sm mt-2">Mapa interactivo disponible próximamente</p>
+                <a
+                  href="https://maps.google.com/?q=FEMAR+Logistics+Lima+Peru"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-femar-orange font-semibold text-sm hover:gap-3 transition-all duration-200"
+                >
+                  Abrir en Google Maps <ArrowRight className="w-4 h-4" />
+                </a>
               </div>
             </div>
           </AnimatedSection>

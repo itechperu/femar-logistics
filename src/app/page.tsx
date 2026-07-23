@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import AnimatedSection from '@/components/animated-section';
 import AnimatedCounter from '@/components/animated-counter';
 import MagneticButton from '@/components/magnetic-button';
+import HeroSlideshow from '@/components/hero-slideshow';
 import SectionSpy from '@/components/scroll-spy';
 import { heroSection, services, testimonials, aboutData, siteConfig, homeSections } from '@/config/site';
 import { Ship, Plane, Truck, Shield, ArrowRight, CheckCircle, Clock, Eye, Heart, Lightbulb, Star, Phone, ChevronRight, Globe, Package, Users, Map } from 'lucide-react';
@@ -41,41 +42,17 @@ export default function HomePage() {
     <>
       <SectionSpy sections={homeSections} />
 
-      {/* ========== HERO SECTION — ULTRA PRO ========== */}
-      <section id="hero" ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden mesh-gradient-hero grid-pattern">
-        {/* Animated mesh blobs */}
-        <motion.div style={{ y: heroY }} className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-[15%] left-[10%] w-[500px] h-[500px] bg-femar-orange/20 rounded-full blur-[100px] animate-float" />
-          <div className="absolute bottom-[20%] right-[5%] w-[400px] h-[400px] bg-femar-orange/10 rounded-full blur-[80px] animate-float-reverse" />
-          <div className="absolute top-[60%] left-[40%] w-[300px] h-[300px] bg-white/5 rounded-full blur-[60px] animate-pulse-glow" />
-          {/* Animated grid dots */}
-          <div className="absolute inset-0 dot-pattern opacity-30" />
-        </motion.div>
+      {/* ========== HERO SECTION — FULL BLEED + AUTO SLIDESHOW ========== */}
+      <section id="hero" ref={heroRef} className="relative h-screen flex items-center overflow-hidden">
+        {/* Full-bleed slideshow background */}
+        <HeroSlideshow />
 
-        {/* Animated SVG shipping route lines */}
-        <svg className="absolute inset-0 w-full h-full opacity-[0.07] pointer-events-none" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#e87722" stopOpacity="0" />
-              <stop offset="50%" stopColor="#e87722" stopOpacity="1" />
-              <stop offset="100%" stopColor="#e87722" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          {/* Flowing shipping routes */}
-          <path d="M100,400 Q400,200 700,350 T1300,300" stroke="url(#routeGrad)" strokeWidth="2" fill="none" strokeDasharray="10 20" className="animate-dash-flow" />
-          <path d="M200,600 Q500,400 800,500 T1400,450" stroke="url(#routeGrad)" strokeWidth="1.5" fill="none" strokeDasharray="8 16" className="animate-dash-flow" style={{ animationDelay: '0.5s' }} />
-          <path d="M50,150 Q300,300 600,200 T1200,150" stroke="url(#routeGrad)" strokeWidth="1" fill="none" strokeDasharray="6 12" className="animate-dash-flow" style={{ animationDelay: '1s' }} />
-          {/* Port dots */}
-          <circle cx="100" cy="400" r="4" fill="#e87722" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" /></circle>
-          <circle cx="700" cy="350" r="4" fill="#e87722" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" begin="0.3s" /></circle>
-          <circle cx="1300" cy="300" r="4" fill="#e87722" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" begin="0.6s" /></circle>
-        </svg>
-
+        {/* Content overlay with parallax */}
         <motion.div
           style={{ opacity: heroOpacity }}
-          className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40"
+          className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32 md:pt-32 md:pb-40"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left: Text + CTAs */}
             <div>
               <motion.div
@@ -187,7 +164,7 @@ export default function HomePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
         >
           <motion.div
             animate={{ y: [0, 12, 0] }}
@@ -220,9 +197,8 @@ export default function HomePage() {
             </p>
           </AnimatedSection>
 
-          {/* Bento-style grid: first row has large featured card + 2 small, second row has 2 small + large */}
+          {/* Bento-style grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-            {/* Featured: Carga Marítima (large card) */}
             {services.map((service, i) => {
               const IconComp = iconMap[service.icon] || Ship;
               const isLarge = i === 0 || i === 3;
@@ -234,9 +210,7 @@ export default function HomePage() {
                 >
                   <Link href={`/servicios/${service.slug}`} className="group block">
                     <div className={`tilt-card glass-card-light p-8 h-full relative overflow-hidden hover-glow transition-all duration-500 ${isLarge ? 'min-h-[280px]' : 'min-h-[220px]'}`}>
-                      {/* Animated background shape */}
                       <div className="absolute -right-12 -top-12 w-32 h-32 bg-femar-orange/5 rounded-full transition-all duration-700 group-hover:w-[400px] group-hover:h-[400px] group-hover:bg-femar-orange/8" />
-                      {/* Accent line */}
                       <div className="absolute top-0 left-0 w-0 h-1 bg-femar-orange transition-all duration-500 group-hover:w-full" />
 
                       <div className="relative tilt-card-inner">
@@ -337,11 +311,8 @@ export default function HomePage() {
             {testimonials.map((testimonial, i) => (
               <AnimatedSection key={testimonial.name} delay={i * 0.2}>
                 <div className="glass-card-light p-8 relative overflow-hidden group hover-glow">
-                  {/* Animated gradient border on hover */}
                   <div className="absolute top-0 left-0 right-0 h-0 bg-gradient-to-r from-femar-orange via-femar-orange-light to-femar-orange transition-all duration-500 group-hover:h-1" />
-                  {/* Quote icon */}
                   <div className="text-femar-orange/20 text-6xl font-serif leading-none mb-4 select-none">&ldquo;</div>
-                  {/* Stars */}
                   <div className="flex items-center gap-1 mb-5">
                     {[...Array(5)].map((_, j) => (
                       <Star key={j} className="w-4 h-4 text-femar-orange fill-femar-orange" />
@@ -394,11 +365,11 @@ export default function HomePage() {
                 Contactar ahora <ArrowRight className="w-5 h-5" />
               </MagneticButton>
               <MagneticButton
-                href={`tel:${siteConfig.phone}`}
+                href={siteConfig.whatsappLink}
                 strength={0.3}
-                className="px-10 py-5 bg-white/8 text-white rounded-xl font-bold text-lg border border-white/15 flex items-center gap-3 no-underline hover:bg-white/15"
+                className="px-10 py-5 bg-green-500/20 text-white rounded-xl font-bold text-lg border border-green-400/30 flex items-center gap-3 no-underline hover:bg-green-500/30"
               >
-                <Phone className="w-5 h-5" /> Llamar ahora
+                <Phone className="w-5 h-5" /> WhatsApp
               </MagneticButton>
             </div>
           </AnimatedSection>

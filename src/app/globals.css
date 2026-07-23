@@ -398,3 +398,48 @@
 .stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
 .stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
 .stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+
+/* ==============================
+   MOBILE BOTTOM NAV SAFETY
+   ============================== */
+
+/* Safe area for mobile bottom nav (iOS notch) */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Ensure content doesn't overlap bottom nav on mobile */
+@media (max-width: 768px) {
+  .pb-0 { padding-bottom: 0 !important; }
+}
+
+/* ==============================
+   HERO FULL BLEED
+   ============================== */
+
+/* Full-bleed hero section */
+.hero-full-bleed {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  position: relative;
+}
+
+/* Ken Burns slow zoom effect for slideshow */
+@keyframes ken-burns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.08) translate(-2%, -1%); }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 8s ease-in-out forwards;
+}
+
+/* Image crossfade transition */
+@keyframes crossfade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-crossfade {
+  animation: crossfade-in 1.5s ease-out forwards;
+}

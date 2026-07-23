@@ -109,11 +109,13 @@ export default function Footer() {
           <div className="space-y-6">
             <h3 className="text-base font-bold text-white uppercase tracking-wider">Contacto</h3>
             <ul className="space-y-4">
-              <li className="flex items-center gap-3 text-sm text-white/40">
-                <div className="w-8 h-8 bg-femar-orange/10 rounded-lg flex items-center justify-center">
-                  <Phone className="w-4 h-4 text-femar-orange" />
-                </div>
-                {siteConfig.phone}
+              <li className="flex items-center gap-3">
+                <a href={`tel:${siteConfig.phone}`} className="flex items-center gap-3 text-sm text-white/40 hover:text-femar-orange transition-colors">
+                  <div className="w-8 h-8 bg-femar-orange/10 rounded-lg flex items-center justify-center">
+                    <Phone className="w-4 h-4 text-femar-orange" />
+                  </div>
+                  {siteConfig.phone}
+                </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-white/40">
                 <div className="w-8 h-8 bg-femar-orange/10 rounded-lg flex items-center justify-center">

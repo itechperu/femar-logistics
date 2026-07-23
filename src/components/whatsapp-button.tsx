@@ -13,12 +13,13 @@ export default function WhatsAppButton() {
       href={siteConfig.whatsappLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-40 group"
+      className="fixed bottom-6 right-6 z-40 md:bottom-6 md:right-6 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 2, type: 'spring', stiffness: 200 }}
+      aria-label="Chat por WhatsApp"
     >
       {/* Pulse ring */}
       <div className="absolute inset-0 rounded-full bg-green-400 animate-ping opacity-20" />
@@ -41,7 +42,7 @@ export default function WhatsAppButton() {
             exit={{ opacity: 0, x: -10, scale: 0.9 }}
             className="absolute right-full mr-3 bg-white rounded-xl shadow-lg shadow-femar-navy/10 text-femar-navy px-5 py-2.5 font-semibold text-sm whitespace-nowrap hidden md:block border border-femar-navy/5"
           >
-            💬 Chat con nosotros
+            <span className="text-green-600">WhatsApp</span> {siteConfig.whatsappNumber}
           </motion.div>
         )}
       </AnimatePresence>

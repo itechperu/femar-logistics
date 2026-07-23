@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { siteConfig, navItems } from '@/config/site';
-import { Menu, X, ChevronDown, Ship, Phone } from 'lucide-react';
+import { Menu, X, ChevronDown, Ship, Phone, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
@@ -129,8 +129,19 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Phone + CTA */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Phone + WhatsApp + CTA */}
+          <div className="hidden md:flex items-center gap-3">
+            <a
+              href={siteConfig.whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center gap-2 text-sm font-medium transition-colors duration-300 ${
+                scrolled ? 'text-green-500' : 'text-green-400'
+              }`}
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span className="hidden lg:inline">WhatsApp</span>
+            </a>
             <a
               href={`tel:${siteConfig.phone}`}
               className={`flex items-center gap-2 text-sm font-medium transition-colors duration-300 ${
@@ -206,7 +217,16 @@ export default function Navbar() {
                     )}
                   </div>
                 ))}
-                <div className="pt-4 border-t border-femar-navy/8">
+                <div className="pt-4 border-t border-femar-navy/8 space-y-2">
+                  <a
+                    href={siteConfig.whatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                    className="block w-full px-4 py-3 bg-green-500 text-white rounded-lg text-sm font-bold text-center hover:bg-green-600 transition-colors shadow-md shadow-green-500/20 flex items-center justify-center gap-2"
+                  >
+                    <MessageCircle className="w-4 h-4" /> WhatsApp {siteConfig.whatsappNumber}
+                  </a>
                   <Link
                     href="/contacto"
                     onClick={() => setIsOpen(false)}

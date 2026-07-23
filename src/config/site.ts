@@ -10,9 +10,10 @@ export const siteConfig = {
   description: "Soluciones integrales en logística y aduanas. Carga marítima, aérea, terrestre y despacho aduanero con más de 15 años de experiencia.",
   keywords: ["logística", "aduanas", "carga marítima", "carga aérea", "carga terrestre", "despacho aduanero", "importación", "exportación", "Perú", "FEMAR"],
   logo: "/logo-femar.svg",
-  whatsapp: "+51999999999",
-  whatsappLink: "https://wa.me/51999999999?text=Hola%20FEMAR%20Logistics%2C%20necesito%20información%20sobre%20sus%20servicios",
-  phone: "+51 999 999 999",
+  whatsapp: "51959265574",
+  whatsappLink: "https://wa.me/51959265574?text=Hola%20FEMAR%20Logistics%2C%20necesito%20información%20sobre%20sus%20servicios%20de%20logística%20y%20aduanas.%20Por%20favor%20contáctenme.",
+  whatsappNumber: "+51 959 265 574",
+  phone: "+51 959 265 574",
   email: "info@femarlogistics.com",
   address: "Lima, Perú",
   social: {
@@ -201,6 +202,7 @@ export type HeroSection = {
   headline: string;
   subheadline: string;
   ctaPrimary: { text: string; href: string };
+  images?: string[];
   ctaSecondary: { text: string; href: string };
   stats: { label: string; value: string }[];
 };
@@ -215,6 +217,12 @@ export const heroSection: HeroSection = {
     { label: "Contenedores gestionados", value: "5000+" },
     { label: "Clientes satisfechos", value: "200+" },
     { label: "Países cubiertos", value: "50+" },
+  ],
+  images: [
+    "/images/hero-logistics-1.jpg",
+    "/images/hero-logistics-2.jpg",
+    "/images/hero-logistics-3.jpg",
+    "/images/hero-logistics-4.jpg",
   ],
 };
 
