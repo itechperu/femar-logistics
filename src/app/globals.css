@@ -43,8 +43,10 @@
   --radius-xl: calc(var(--radius) + 4px);
   --color-femar-navy: #0c2340;
   --color-femar-navy-light: #1a3a5c;
+  --color-femar-blue: #2d6ca2;
   --color-femar-orange: #e87722;
-  --color-femar-orange-light: #f59e42;
+  --color-femar-orange-light: #f5a623;
+  --color-femar-beige: #f5e6cc;
   --color-femar-light: #f8f9fa;
   --color-femar-dark: #0a1628;
 }

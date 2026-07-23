@@ -8,10 +8,7 @@ import { Ship, Plane, Truck, Shield, ArrowRight, CheckCircle, Globe } from 'luci
 import Link from 'next/link';
 
 const iconMap: Record<string, React.ElementType> = {
-  ship: Ship,
-  plane: Plane,
-  truck: Truck,
-  shield: Shield,
+  ship: Ship, plane: Plane, truck: Truck, shield: Shield,
 };
 
 const servicesSections = [
@@ -25,29 +22,33 @@ export default function ServicesPageClient() {
     <>
       <SectionSpy sections={servicesSections} basePath="/servicios" />
 
-      {/* Hero Banner */}
-      <section className="relative pt-32 pb-24 md:pt-44 md:pb-32 mesh-gradient-hero grid-pattern overflow-hidden">
+      {/* Hero Banner — DARK NAVY */}
+      <section className="relative pt-32 pb-24 md:pt-44 md:pb-32 bg-femar-navy overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute bottom-[20%] -right-10 w-[400px] h-[400px] bg-femar-orange/15 rounded-full blur-[80px] animate-float" />
+          <div className="absolute top-[10%] left-[5%] w-[300px] h-[300px] bg-femar-orange/10 rounded-full blur-[60px]" />
+          <div className="absolute inset-0 dot-pattern opacity-20" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/20 text-femar-orange rounded-full text-sm font-semibold mb-8 border border-femar-orange/30">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/20 text-femar-orange-light rounded-full text-sm font-semibold mb-8 border border-femar-orange/30">
               <Ship className="w-4 h-4" /> Nuestros Servicios
             </span>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
               Servicios <span className="gradient-text">Logísticos</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl">
+            <p className="text-lg md:text-xl text-white/80 max-w-2xl">
               Soluciones integrales para cada etapa de su comercio exterior.
             </p>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Services Catalog - Bento Grid */}
-      <section id="catalogo" className="py-24 md:py-32 mesh-gradient-section relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none dot-pattern opacity-15" />
+      {/* Services Catalog — LIGHT BEIGE */}
+      <section id="catalogo" className="py-24 md:py-32 bg-femar-beige relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[10%] right-[5%] w-[250px] h-[250px] bg-femar-orange/8 rounded-full blur-[60px]" />
+        </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {services.map((service, i) => {
@@ -56,13 +57,10 @@ export default function ServicesPageClient() {
               return (
                 <AnimatedSection key={service.slug} delay={i * 0.15} className={isFeatured ? 'md:col-span-2' : ''}>
                   <Link href={`/servicios/${service.slug}`} className="group block">
-                    <div className={`glass-card-light p-8 md:p-10 h-full relative overflow-hidden hover-glow ${isFeatured ? 'min-h-[300px]' : 'min-h-[240px]'}`}>
-                      {/* Animated accent line */}
+                    <div className={`bg-white/95 p-8 md:p-10 h-full relative overflow-hidden rounded-2xl shadow-sm border border-femar-navy/8 hover:shadow-lg hover:shadow-femar-orange/10 transition-all duration-300 ${isFeatured ? 'min-h-[300px]' : 'min-h-[240px]'}`}>
                       <div className="absolute top-0 left-0 w-0 h-1.5 bg-femar-orange transition-all duration-500 group-hover:w-full" />
-                      {/* Animated background circle */}
                       <div className="absolute -right-16 -top-16 w-32 h-32 bg-femar-orange/5 rounded-full transition-all duration-700 group-hover:w-[500px] group-hover:h-[500px] group-hover:bg-femar-orange/8" />
-
-                      <div className="relative tilt-card-inner">
+                      <div className="relative">
                         <div className="flex items-start gap-6">
                           <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-500 ${isFeatured ? 'bg-femar-navy text-white group-hover:bg-femar-orange shadow-lg shadow-femar-navy/20' : 'bg-femar-orange/10 text-femar-orange group-hover:bg-femar-navy group-hover:text-white'}`}>
                             <IconComp className="w-8 h-8" />
@@ -71,14 +69,14 @@ export default function ServicesPageClient() {
                             <h3 className={`font-bold mb-3 transition-colors duration-300 ${isFeatured ? 'text-2xl md:text-3xl' : 'text-xl'} text-femar-navy group-hover:text-femar-orange`}>
                               {service.title}
                             </h3>
-                            <p className="text-muted-foreground leading-relaxed mb-6">
+                            <p className="text-femar-navy/50 leading-relaxed mb-6">
                               {service.description}
                             </p>
                             <div className="space-y-2 mb-6">
                               {service.features.slice(0, 3).map((feature) => (
                                 <div key={feature} className="flex items-center gap-2.5 text-sm">
                                   <CheckCircle className="w-4 h-4 text-femar-orange" />
-                                  <span className="text-muted-foreground">{feature}</span>
+                                  <span className="text-femar-navy/50">{feature}</span>
                                 </div>
                               ))}
                             </div>
@@ -97,10 +95,11 @@ export default function ServicesPageClient() {
         </div>
       </section>
 
-      {/* Detailed Benefits */}
-      <section id="detalles" className="py-24 md:py-32 mesh-gradient-hero grid-pattern relative overflow-hidden">
+      {/* Detailed Benefits — DARK NAVY */}
+      <section id="detalles" className="py-24 md:py-32 bg-femar-navy relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[30%] -left-10 w-[300px] h-[300px] bg-femar-orange/15 rounded-full blur-[80px] animate-float" />
+          <div className="absolute inset-0 dot-pattern opacity-20" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="text-center mb-20">
@@ -111,8 +110,8 @@ export default function ServicesPageClient() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <AnimatedSection direction="left">
-              <div className="glass-card p-10 relative overflow-hidden hover-glow">
-                <div className="absolute top-0 left-0 w-0 h-1 bg-femar-orange transition-all duration-500 group-hover:w-full" />
+              <div className="bg-white/5 backdrop-blur-xl p-10 relative overflow-hidden hover-glow rounded-2xl border border-white/10">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-femar-orange via-femar-orange-light to-femar-orange" />
                 <h3 className="text-xl font-bold text-white mb-8">Beneficios comunes</h3>
                 <ul className="space-y-5">
                   {[
@@ -134,7 +133,7 @@ export default function ServicesPageClient() {
             </AnimatedSection>
 
             <AnimatedSection direction="right" delay={0.3}>
-              <div className="glass-card p-10 relative overflow-hidden hover-glow">
+              <div className="bg-white/5 backdrop-blur-xl p-10 relative overflow-hidden hover-glow rounded-2xl border border-white/10">
                 <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
                   <Globe className="w-5 h-5 text-femar-orange" /> Cobertura geográfica
                 </h3>
@@ -157,21 +156,18 @@ export default function ServicesPageClient() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section id="contacto-servicios" className="py-24 mesh-gradient-section relative overflow-hidden">
+      {/* CTA — LIGHT BEIGE */}
+      <section id="contacto-servicios" className="py-24 bg-femar-beige relative overflow-hidden">
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <AnimatedSection>
             <h2 className="text-4xl md:text-5xl font-bold text-femar-navy mb-8 tracking-tight">
-              ¿Necesita un servicio <span className="gradient-text">específico</span>?
+              ¿Necesita un servicio <span className="text-femar-orange">específico</span>?
             </h2>
-            <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
+            <p className="text-lg text-femar-navy/50 mb-10 max-w-2xl mx-auto">
               Cotice sin compromiso. Le responderemos en menos de 24 horas.
             </p>
-            <MagneticButton
-              href="/contacto"
-              strength={0.4}
-              className="px-10 py-5 bg-femar-orange text-white rounded-xl font-bold text-lg shadow-lg shadow-femar-orange/30 flex items-center gap-3 no-underline"
-            >
+            <MagneticButton href="/contacto" strength={0.4}
+              className="px-10 py-5 bg-femar-orange text-white rounded-xl font-bold text-lg shadow-lg shadow-femar-orange/30 flex items-center gap-3 no-underline">
               Solicitar cotización <ArrowRight className="w-5 h-5" />
             </MagneticButton>
           </AnimatedSection>
@@ -180,5 +176,3 @@ export default function ServicesPageClient() {
     </>
   );
 }
-
-

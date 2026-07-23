@@ -36,44 +36,48 @@ export default function ContactPageClient() {
     <>
       <SectionSpy sections={contactSections} basePath="/contacto" />
 
-      {/* Hero Banner */}
-      <section className="relative pt-32 pb-24 md:pt-44 md:pb-32 mesh-gradient-hero grid-pattern overflow-hidden">
+      {/* Hero Banner — DARK */}
+      <section className="relative pt-32 pb-24 md:pt-44 md:pb-32 bg-femar-navy overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute bottom-[20%] -right-10 w-[400px] h-[400px] bg-femar-orange/15 rounded-full blur-[80px] animate-float" />
+          <div className="absolute top-[10%] left-[10%] w-[300px] h-[300px] bg-femar-orange/10 rounded-full blur-[60px]" />
+          <div className="absolute inset-0 dot-pattern opacity-20" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/20 text-femar-orange rounded-full text-sm font-semibold mb-8 border border-femar-orange/30">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/20 text-femar-orange-light rounded-full text-sm font-semibold mb-8 border border-femar-orange/30">
               <Phone className="w-4 h-4" /> Contacto
             </span>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
-              Hablemos de su{"\n"}
-              <span className="gradient-text">proyecto</span>
+              Hablemos de su{"\n"}<span className="gradient-text">proyecto</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl">
+            <p className="text-lg md:text-xl text-white/80 max-w-2xl">
               Solicite su cotización gratuita. Le responderemos en menos de 24 horas.
             </p>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Contact Form + Info */}
-      <section id="formulario" className="py-24 md:py-32 mesh-gradient-section relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none dot-pattern opacity-15" />
+      {/* Contact Form + Info — LIGHT BEIGE */}
+      <section id="formulario" className="py-24 md:py-32 bg-femar-beige relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[20%] right-[10%] w-[300px] h-[300px] bg-femar-orange/8 rounded-full blur-[80px]" />
+          <div className="absolute bottom-[10%] left-[5%] w-[200px] h-[200px] bg-femar-blue/5 rounded-full blur-[60px]" />
+        </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Form */}
             <div className="lg:col-span-2">
               <AnimatedSection direction="left">
                 {isSubmitted ? (
-                  <div className="glass-card-light p-14 text-center relative overflow-hidden">
+                  <div className="bg-white/95 p-14 text-center relative overflow-hidden rounded-2xl shadow-sm border border-femar-navy/8">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-green-600" />
                     <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-8" />
                     <h3 className="text-3xl font-bold text-femar-navy mb-6">Mensaje enviado</h3>
-                    <p className="text-muted-foreground mb-4">
+                    <p className="text-femar-navy/60 mb-4">
                       Gracias por contactar FEMAR Logistics. Le responderemos en menos de 24 horas.
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-femar-navy/50">
                       Si necesita respuesta inmediata, llame al {siteConfig.phone} o escriba por WhatsApp
                     </p>
                     <a href={siteConfig.whatsappLink} target="_blank" rel="noopener noreferrer"
@@ -82,7 +86,7 @@ export default function ContactPageClient() {
                     </a>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="glass-card-light p-8 md:p-10 space-y-6 relative overflow-hidden">
+                  <form onSubmit={handleSubmit} className="bg-white/95 p-8 md:p-10 space-y-6 relative overflow-hidden rounded-2xl shadow-sm border border-femar-navy/8">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-femar-orange via-femar-orange-light to-femar-orange" />
                     <h3 className="text-xl font-bold text-femar-navy mb-2">Formulario de contacto</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -129,11 +133,9 @@ export default function ContactPageClient() {
                         className="w-full px-4 py-3 rounded-xl border border-femar-navy/10 bg-white text-femar-navy focus:outline-none focus:border-femar-orange focus:ring-4 focus:ring-femar-orange/10 transition-all shadow-sm resize-none"
                         placeholder="Describa su necesidad logística..." />
                     </div>
-                    <MagneticButton
-                      strength={0.3}
+                    <MagneticButton strength={0.3}
                       className="w-full md:w-auto px-8 py-4 bg-femar-orange text-white rounded-xl font-bold text-lg shadow-lg shadow-femar-orange/30 flex items-center gap-2 justify-center cursor-pointer"
-                      onClick={handleSubmit as any}
-                    >
+                      onClick={handleSubmit as any}>
                       <Send className="w-5 h-5" /> Enviar mensaje
                     </MagneticButton>
                   </form>
@@ -141,27 +143,27 @@ export default function ContactPageClient() {
               </AnimatedSection>
             </div>
 
-            {/* Contact Info Sidebar */}
+            {/* Sidebar — Navy dark card for contrast */}
             <div>
               <AnimatedSection direction="right" delay={0.3}>
                 <div className="space-y-6">
-                  <div className="glass-card p-8 relative overflow-hidden hover-glow">
+                  <div className="bg-femar-navy p-8 relative overflow-hidden rounded-2xl shadow-lg hover-glow">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-femar-orange via-femar-orange-light to-femar-orange" />
                     <h3 className="font-bold text-white mb-6 text-lg">Contacto directo</h3>
                     <div className="space-y-5">
-                      <a href={`tel:${siteConfig.phone}`} className="flex items-center gap-4 text-white/60 hover:text-femar-orange transition-colors duration-200 group">
+                      <a href={`tel:${siteConfig.phone}`} className="flex items-center gap-4 text-white/70 hover:text-femar-orange transition-colors duration-200 group">
                         <div className="w-10 h-10 bg-femar-orange/15 rounded-xl flex items-center justify-center group-hover:bg-femar-orange transition-colors duration-200">
                           <Phone className="w-5 h-5 text-femar-orange group-hover:text-white transition-colors duration-200" />
                         </div>
                         <span>{siteConfig.phone}</span>
                       </a>
-                      <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-4 text-white/60 hover:text-femar-orange transition-colors duration-200 group">
+                      <a href={`mailto:${siteConfig.email}`} className="flex items-center gap-4 text-white/70 hover:text-femar-orange transition-colors duration-200 group">
                         <div className="w-10 h-10 bg-femar-orange/15 rounded-xl flex items-center justify-center group-hover:bg-femar-orange transition-colors duration-200">
                           <Mail className="w-5 h-5 text-femar-orange group-hover:text-white transition-colors duration-200" />
                         </div>
                         <span>{siteConfig.email}</span>
                       </a>
-                      <div className="flex items-center gap-4 text-white/60">
+                      <div className="flex items-center gap-4 text-white/70">
                         <div className="w-10 h-10 bg-femar-orange/15 rounded-xl flex items-center justify-center">
                           <MapPin className="w-5 h-5 text-femar-orange" />
                         </div>
@@ -170,11 +172,11 @@ export default function ContactPageClient() {
                     </div>
                   </div>
 
-                  <div className="glass-card-light p-8 relative overflow-hidden">
+                  <div className="bg-white/95 p-8 relative overflow-hidden rounded-2xl shadow-sm border border-femar-navy/8">
                     <h3 className="font-bold text-femar-navy mb-5 flex items-center gap-2">
                       <Clock className="w-5 h-5 text-femar-orange" /> Horario
                     </h3>
-                    <div className="space-y-2 text-sm text-muted-foreground">
+                    <div className="space-y-2 text-sm text-femar-navy/50">
                       <p>Lunes a Viernes: 8:00 AM — 6:00 PM</p>
                       <p>Sábados: 9:00 AM — 1:00 PM</p>
                       <p className="text-femar-orange font-semibold">Emergencias: 24/7 WhatsApp</p>
@@ -200,51 +202,38 @@ export default function ContactPageClient() {
         </div>
       </section>
 
-      {/* Google Maps Embed */}
-      <section id="informacion" className="py-24 md:py-32 mesh-gradient-section relative overflow-hidden">
+      {/* Google Maps — LIGHT */}
+      <section id="informacion" className="py-24 md:py-32 bg-femar-light relative overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection className="text-center mb-12">
             <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/10 text-femar-orange rounded-full text-sm font-semibold mb-6 border border-femar-orange/20">
               <MapPin className="w-4 h-4" /> Ubicación
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-femar-navy mb-4 tracking-tight">
-              Nuestra <span className="gradient-text">ubicación</span>
+              Nuestra <span className="text-femar-orange">ubicación</span>
             </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
+            <p className="text-femar-navy/50 max-w-xl mx-auto">
               Visite nuestras oficinas en Lima, Perú. Estamos ubicados en una zona estratégica para su atención.
             </p>
           </AnimatedSection>
           <AnimatedSection>
             <div className="rounded-2xl overflow-hidden shadow-xl shadow-femar-navy/10 border border-femar-navy/8 relative">
-              {/* Google Maps iframe embed */}
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.9!2d-77.0!3d-12.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDAwJzAwLjAiUyA3N8KwMDAnMDAuMCJX!5e0!3m2!1ses!2spe!4v1"
-                width="100%"
-                height="400"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Ubicación FEMAR Logistics - Lima, Perú"
-                className="w-full"
-              />
-              {/* Map overlay card */}
-              <div className="absolute bottom-4 left-4 right-4 md:left-8 md:right-auto md:max-w-xs glass-card-light p-5 shadow-lg">
+                width="100%" height="400" style={{ border: 0 }} allowFullScreen loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade" title="Ubicación FEMAR Logistics - Lima, Perú" className="w-full" />
+              <div className="absolute bottom-4 left-4 right-4 md:left-8 md:right-auto md:max-w-xs bg-white/95 p-5 shadow-lg rounded-xl border border-femar-navy/8">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 bg-femar-orange rounded-xl flex items-center justify-center shadow-md shadow-femar-orange/20">
                     <MapPin className="w-5 h-5 text-white" />
                   </div>
                   <div>
                     <h4 className="font-bold text-femar-navy text-sm">FEMAR Logistics SAC</h4>
-                    <p className="text-xs text-muted-foreground">{siteConfig.address}</p>
+                    <p className="text-xs text-femar-navy/50">{siteConfig.address}</p>
                   </div>
                 </div>
-                <a
-                  href="https://maps.google.com/?q=FEMAR+Logistics+Lima+Peru"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-femar-orange font-semibold text-sm hover:gap-3 transition-all duration-200"
-                >
+                <a href="https://maps.google.com/?q=FEMAR+Logistics+Lima+Peru" target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-femar-orange font-semibold text-sm hover:gap-3 transition-all duration-200">
                   Abrir en Google Maps <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
