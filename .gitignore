@@ -33,6 +33,25 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# database
+/db/
+
+# dev scripts & logs
+/.zscripts/
+dev.log
+server.log
+
+# sandbox extras
+/examples/
+/tests/
+/mini-services/
+/download/
+/skills/
+/worklog.md
+/.claude
+/.z-ai-config
+prompt
+
 # vercel
 .vercel
 
