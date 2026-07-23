@@ -1,9 +1,10 @@
 'use client';
 
 import AnimatedSection from '@/components/animated-section';
+import MagneticButton from '@/components/magnetic-button';
 import SectionSpy from '@/components/scroll-spy';
 import { services, siteConfig } from '@/config/site';
-import { Ship, Plane, Truck, Shield, ArrowRight, CheckCircle } from 'lucide-react';
+import { Ship, Plane, Truck, Shield, ArrowRight, CheckCircle, Globe } from 'lucide-react';
 import Link from 'next/link';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -25,56 +26,65 @@ export default function ServicesPageClient() {
       <SectionSpy sections={servicesSections} basePath="/servicios" />
 
       {/* Hero Banner */}
-      <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-gradient-to-br from-femar-navy to-femar-dark overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-femar-orange rounded-full blur-3xl animate-float" />
+      <section className="relative pt-32 pb-24 md:pt-44 md:pb-32 mesh-gradient-hero grid-pattern overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute bottom-[20%] -right-10 w-[400px] h-[400px] bg-femar-orange/15 rounded-full blur-[80px] animate-float" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
-            <span className="inline-block px-4 py-1.5 bg-femar-orange/20 text-femar-orange rounded-full text-sm font-medium mb-6 border border-femar-orange/30">
-              Nuestros Servicios
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/20 text-femar-orange rounded-full text-sm font-semibold mb-8 border border-femar-orange/30">
+              <Ship className="w-4 h-4" /> Nuestros Servicios
             </span>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-              Servicios <span className="text-femar-orange">Logísticos</span>
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+              Servicios <span className="gradient-text">Logísticos</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/80 max-w-2xl">
-              Soluciones integrales para cada etapa de su comercio exterior. Desde el transporte hasta el despacho aduanero.
+            <p className="text-lg md:text-xl text-white/70 max-w-2xl">
+              Soluciones integrales para cada etapa de su comercio exterior.
             </p>
           </AnimatedSection>
         </div>
       </section>
 
-      {/* Services Catalog */}
-      <section id="catalogo" className="py-20 md:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {/* Services Catalog - Bento Grid */}
+      <section id="catalogo" className="py-24 md:py-32 mesh-gradient-section relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none dot-pattern opacity-15" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {services.map((service, i) => {
               const IconComp = iconMap[service.icon] || Ship;
+              const isFeatured = i === 0;
               return (
-                <AnimatedSection key={service.slug} delay={i * 0.2}>
+                <AnimatedSection key={service.slug} delay={i * 0.15} className={isFeatured ? 'md:col-span-2' : ''}>
                   <Link href={`/servicios/${service.slug}`} className="group block">
-                    <div className="bg-white rounded-xl border border-border p-8 h-full hover:border-femar-orange/50 hover:shadow-2xl transition-all duration-300 group-hover:-translate-y-2">
-                      <div className="flex items-start gap-6">
-                        <div className="w-16 h-16 bg-femar-navy/10 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-femar-orange transition-colors duration-300">
-                          <IconComp className="w-8 h-8 text-femar-navy group-hover:text-white transition-colors duration-300" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-2xl font-bold text-femar-navy mb-3 group-hover:text-femar-orange transition-colors">
-                            {service.title}
-                          </h3>
-                          <p className="text-muted-foreground leading-relaxed mb-4">
-                            {service.description}
-                          </p>
-                          <div className="space-y-2 mb-6">
-                            {service.features.slice(0, 3).map((feature) => (
-                              <div key={feature} className="flex items-center gap-2 text-sm">
-                                <CheckCircle className="w-4 h-4 text-femar-orange" />
-                                <span className="text-muted-foreground">{feature}</span>
-                              </div>
-                            ))}
+                    <div className={`glass-card-light p-8 md:p-10 h-full relative overflow-hidden hover-glow ${isFeatured ? 'min-h-[300px]' : 'min-h-[240px]'}`}>
+                      {/* Animated accent line */}
+                      <div className="absolute top-0 left-0 w-0 h-1.5 bg-femar-orange transition-all duration-500 group-hover:w-full" />
+                      {/* Animated background circle */}
+                      <div className="absolute -right-16 -top-16 w-32 h-32 bg-femar-orange/5 rounded-full transition-all duration-700 group-hover:w-[500px] group-hover:h-[500px] group-hover:bg-femar-orange/8" />
+
+                      <div className="relative tilt-card-inner">
+                        <div className="flex items-start gap-6">
+                          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-500 ${isFeatured ? 'bg-femar-navy text-white group-hover:bg-femar-orange shadow-lg shadow-femar-navy/20' : 'bg-femar-orange/10 text-femar-orange group-hover:bg-femar-navy group-hover:text-white'}`}>
+                            <IconComp className="w-8 h-8" />
                           </div>
-                          <div className="flex items-center gap-2 text-femar-orange font-medium group-hover:gap-3 transition-all duration-200">
-                            Ver servicio completo <ArrowRight className="w-4 h-4" />
+                          <div className="flex-1">
+                            <h3 className={`font-bold mb-3 transition-colors duration-300 ${isFeatured ? 'text-2xl md:text-3xl' : 'text-xl'} text-femar-navy group-hover:text-femar-orange`}>
+                              {service.title}
+                            </h3>
+                            <p className="text-muted-foreground leading-relaxed mb-6">
+                              {service.description}
+                            </p>
+                            <div className="space-y-2 mb-6">
+                              {service.features.slice(0, 3).map((feature) => (
+                                <div key={feature} className="flex items-center gap-2.5 text-sm">
+                                  <CheckCircle className="w-4 h-4 text-femar-orange" />
+                                  <span className="text-muted-foreground">{feature}</span>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="flex items-center gap-2 text-femar-orange font-bold group-hover:gap-4 transition-all duration-300">
+                              Ver servicio completo <ArrowRight className="w-5 h-5" />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -87,23 +97,24 @@ export default function ServicesPageClient() {
         </div>
       </section>
 
-      {/* Detailed Service Benefits */}
-      <section id="detalles" className="py-20 md:py-28 bg-femar-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-femar-navy mb-4">
-              ¿Por qué elegir <span className="text-femar-orange">FEMAR</span>?
+      {/* Detailed Benefits */}
+      <section id="detalles" className="py-24 md:py-32 mesh-gradient-hero grid-pattern relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[30%] -left-10 w-[300px] h-[300px] bg-femar-orange/15 rounded-full blur-[80px] animate-float" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection className="text-center mb-20">
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+              ¿Por qué elegir <span className="gradient-text">FEMAR</span>?
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Cada servicio está diseñado para maximizar la eficiencia y minimizar los costos de su operación logística.
-            </p>
           </AnimatedSection>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <AnimatedSection direction="left">
-              <div className="bg-white rounded-xl border border-border p-8">
-                <h3 className="text-xl font-bold text-femar-navy mb-6">Beneficios comunes en todos nuestros servicios</h3>
-                <ul className="space-y-4">
+              <div className="glass-card p-10 relative overflow-hidden hover-glow">
+                <div className="absolute top-0 left-0 w-0 h-1 bg-femar-orange transition-all duration-500 group-hover:w-full" />
+                <h3 className="text-xl font-bold text-white mb-8">Beneficios comunes</h3>
+                <ul className="space-y-5">
                   {[
                     'Atención personalizada con agente asignado',
                     'Seguimiento en tiempo real de su carga',
@@ -111,9 +122,11 @@ export default function ServicesPageClient() {
                     'Cumplimiento garantizado de normativa',
                     'Reducción de tiempos y costos operativos',
                   ].map((benefit) => (
-                    <li key={benefit} className="flex items-center gap-3">
-                      <CheckCircle className="w-5 h-5 text-femar-orange" />
-                      <span className="text-femar-navy">{benefit}</span>
+                    <li key={benefit} className="flex items-center gap-4">
+                      <div className="w-8 h-8 bg-femar-orange/15 rounded-lg flex items-center justify-center">
+                        <CheckCircle className="w-4 h-4 text-femar-orange" />
+                      </div>
+                      <span className="text-white/70">{benefit}</span>
                     </li>
                   ))}
                 </ul>
@@ -121,18 +134,20 @@ export default function ServicesPageClient() {
             </AnimatedSection>
 
             <AnimatedSection direction="right" delay={0.3}>
-              <div className="bg-femar-navy rounded-xl p-8 text-white">
-                <h3 className="text-xl font-bold mb-6">Cobertura geográfica</h3>
-                <div className="grid grid-cols-2 gap-4">
+              <div className="glass-card p-10 relative overflow-hidden hover-glow">
+                <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+                  <Globe className="w-5 h-5 text-femar-orange" /> Cobertura geográfica
+                </h3>
+                <div className="grid grid-cols-2 gap-5">
                   {[
                     { region: 'Asia-Pacífico', ports: '35+' },
                     { region: 'Europa', ports: '20+' },
                     { region: 'América del Norte', ports: '15+' },
                     { region: 'América del Sur', ports: '25+' },
                   ].map((item) => (
-                    <div key={item.region} className="bg-white/10 rounded-lg p-4">
-                      <p className="text-femar-orange font-bold text-2xl">{item.ports}</p>
-                      <p className="text-white/70 text-sm">{item.region}</p>
+                    <div key={item.region} className="bg-white/5 rounded-xl p-5 group hover:bg-femar-orange/10 transition-colors duration-300">
+                      <p className="text-femar-orange font-bold text-3xl">{item.ports}</p>
+                      <p className="text-white/50 text-sm mt-1">{item.region}</p>
                     </div>
                   ))}
                 </div>
@@ -143,27 +158,27 @@ export default function ServicesPageClient() {
       </section>
 
       {/* CTA */}
-      <section id="contacto-servicios" className="py-20 bg-gradient-to-br from-femar-navy to-femar-dark relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-72 h-72 bg-femar-orange rounded-full blur-3xl" />
-        </div>
+      <section id="contacto-servicios" className="py-24 mesh-gradient-section relative overflow-hidden">
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <AnimatedSection>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              ¿Necesita un servicio <span className="text-femar-orange">específico</span>?
+            <h2 className="text-4xl md:text-5xl font-bold text-femar-navy mb-8 tracking-tight">
+              ¿Necesita un servicio <span className="gradient-text">específico</span>?
             </h2>
-            <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
-              Cotice sin compromiso. Le responderemos en menos de 24 horas con una propuesta adaptada a su operación.
+            <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
+              Cotice sin compromiso. Le responderemos en menos de 24 horas.
             </p>
-            <Link
+            <MagneticButton
               href="/contacto"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-femar-orange text-white rounded-xl font-semibold text-lg hover:bg-femar-orange/90 transition-all duration-200 shadow-lg"
+              strength={0.4}
+              className="px-10 py-5 bg-femar-orange text-white rounded-xl font-bold text-lg shadow-lg shadow-femar-orange/30 flex items-center gap-3 no-underline"
             >
               Solicitar cotización <ArrowRight className="w-5 h-5" />
-            </Link>
+            </MagneticButton>
           </AnimatedSection>
         </div>
       </section>
     </>
   );
 }
+
+

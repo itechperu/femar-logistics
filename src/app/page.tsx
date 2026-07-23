@@ -2,11 +2,13 @@
 
 import { useRef } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import AnimatedSection from '@/components/animated-section';
+import AnimatedCounter from '@/components/animated-counter';
+import MagneticButton from '@/components/magnetic-button';
 import SectionSpy from '@/components/scroll-spy';
 import { heroSection, services, testimonials, aboutData, siteConfig, homeSections } from '@/config/site';
-import { Ship, Plane, Truck, Shield, ArrowRight, CheckCircle, Clock, Eye, Heart, Lightbulb, Star, Phone, ChevronRight } from 'lucide-react';
+import { Ship, Plane, Truck, Shield, ArrowRight, CheckCircle, Clock, Eye, Heart, Lightbulb, Star, Phone, ChevronRight, Globe, Package, Users, Map } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = {
   ship: Ship,
@@ -19,111 +21,163 @@ const iconMap: Record<string, React.ElementType> = {
   lightbulb: Lightbulb,
 };
 
+const statIconMap: Record<string, React.ElementType> = {
+  'Años de experiencia': Clock,
+  'Contenedores gestionados': Package,
+  'Clientes satisfechos': Users,
+  'Países cubiertos': Globe,
+};
+
 export default function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
   });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 200]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.2]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 300]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
     <>
       <SectionSpy sections={homeSections} />
 
-      {/* ========== HERO SECTION ========== */}
-      <section id="hero" ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Background gradient */}
-        <motion.div
-          style={{ y: heroY }}
-          className="absolute inset-0 bg-gradient-to-br from-femar-navy via-femar-navy/95 to-femar-dark"
-        >
-          {/* Animated overlay pattern */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-1/4 -left-20 w-72 h-72 bg-femar-orange rounded-full blur-3xl animate-float" />
-            <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-femar-orange/50 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl" />
-          </div>
+      {/* ========== HERO SECTION — ULTRA PRO ========== */}
+      <section id="hero" ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden mesh-gradient-hero grid-pattern">
+        {/* Animated mesh blobs */}
+        <motion.div style={{ y: heroY }} className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[15%] left-[10%] w-[500px] h-[500px] bg-femar-orange/20 rounded-full blur-[100px] animate-float" />
+          <div className="absolute bottom-[20%] right-[5%] w-[400px] h-[400px] bg-femar-orange/10 rounded-full blur-[80px] animate-float-reverse" />
+          <div className="absolute top-[60%] left-[40%] w-[300px] h-[300px] bg-white/5 rounded-full blur-[60px] animate-pulse-glow" />
+          {/* Animated grid dots */}
+          <div className="absolute inset-0 dot-pattern opacity-30" />
         </motion.div>
+
+        {/* Animated SVG shipping route lines */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.07] pointer-events-none" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#e87722" stopOpacity="0" />
+              <stop offset="50%" stopColor="#e87722" stopOpacity="1" />
+              <stop offset="100%" stopColor="#e87722" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          {/* Flowing shipping routes */}
+          <path d="M100,400 Q400,200 700,350 T1300,300" stroke="url(#routeGrad)" strokeWidth="2" fill="none" strokeDasharray="10 20" className="animate-dash-flow" />
+          <path d="M200,600 Q500,400 800,500 T1400,450" stroke="url(#routeGrad)" strokeWidth="1.5" fill="none" strokeDasharray="8 16" className="animate-dash-flow" style={{ animationDelay: '0.5s' }} />
+          <path d="M50,150 Q300,300 600,200 T1200,150" stroke="url(#routeGrad)" strokeWidth="1" fill="none" strokeDasharray="6 12" className="animate-dash-flow" style={{ animationDelay: '1s' }} />
+          {/* Port dots */}
+          <circle cx="100" cy="400" r="4" fill="#e87722" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" /></circle>
+          <circle cx="700" cy="350" r="4" fill="#e87722" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" begin="0.3s" /></circle>
+          <circle cx="1300" cy="300" r="4" fill="#e87722" opacity="0.6"><animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite" begin="0.6s" /></circle>
+        </svg>
 
         <motion.div
           style={{ opacity: heroOpacity }}
           className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left: Text + CTAs */}
             <div>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
               >
-                <span className="inline-block px-4 py-1.5 bg-femar-orange/20 text-femar-orange rounded-full text-sm font-medium mb-6 border border-femar-orange/30">
-                  Logística & Aduanas — Perú
+                <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/15 text-femar-orange rounded-full text-sm font-semibold mb-8 border border-femar-orange/25">
+                  <Globe className="w-4 h-4" /> Logística & Aduanas — Perú
                 </span>
               </motion.div>
 
               <motion.h1
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6"
+                transition={{ duration: 1, delay: 0.2 }}
+                className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.95] mb-8 tracking-tight"
               >
-                Su carga,{' '}
-                <span className="text-femar-orange">nuestra misión</span>
+                Su carga,{"\n"}
+                <span className="gradient-text">nuestra misión</span>
               </motion.h1>
 
               <motion.p
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-lg md:text-xl text-white/80 mb-8 max-w-xl leading-relaxed"
+                className="text-lg md:text-xl text-white/70 mb-10 max-w-xl leading-relaxed"
               >
                 {heroSection.subheadline}
               </motion.p>
 
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="flex flex-wrap gap-4"
+                className="flex flex-wrap gap-5"
               >
-                <Link
+                <MagneticButton
                   href={heroSection.ctaPrimary.href}
-                  className="px-8 py-4 bg-femar-orange text-white rounded-xl font-semibold text-lg hover:bg-femar-orange/90 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 magnetic-btn"
+                  strength={0.4}
+                  className="px-10 py-5 bg-femar-orange text-white rounded-xl font-bold text-lg shadow-lg shadow-femar-orange/30 flex items-center gap-3 no-underline"
                 >
-                  {heroSection.ctaPrimary.text}
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-                <Link
+                  {heroSection.ctaPrimary.text} <ArrowRight className="w-5 h-5" />
+                </MagneticButton>
+                <MagneticButton
                   href={heroSection.ctaSecondary.href}
-                  className="px-8 py-4 bg-white/10 text-white rounded-xl font-semibold text-lg hover:bg-white/20 transition-all duration-200 border border-white/20 flex items-center gap-2"
+                  strength={0.3}
+                  className="px-10 py-5 bg-white/8 text-white rounded-xl font-bold text-lg border border-white/15 flex items-center gap-3 no-underline hover:bg-white/15"
                 >
-                  {heroSection.ctaSecondary.text}
-                  <ChevronRight className="w-5 h-5" />
-                </Link>
+                  {heroSection.ctaSecondary.text} <ChevronRight className="w-5 h-5" />
+                </MagneticButton>
+              </motion.div>
+
+              {/* Trust bar */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 1.2 }}
+                className="mt-12 flex items-center gap-6"
+              >
+                <div className="flex -space-x-2">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="w-10 h-10 rounded-full bg-femar-navy-light border-2 border-femar-navy flex items-center justify-center text-white text-xs font-bold">
+                      {String.fromCharCode(64 + i)}
+                    </div>
+                  ))}
+                </div>
+                <div className="text-sm text-white/50">
+                  <span className="text-white font-semibold">200+</span> clientes confían en nosotros
+                </div>
               </motion.div>
             </div>
 
-            {/* Stats grid */}
+            {/* Right: Stats with animated counters */}
             <motion.div
-              initial={{ opacity: 0, x: 60 }}
+              initial={{ opacity: 0, x: 80 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="grid grid-cols-2 gap-6"
+              transition={{ duration: 1, delay: 0.8 }}
+              className="grid grid-cols-2 gap-5"
             >
-              {heroSection.stats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 1 + i * 0.15 }}
-                  className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-femar-orange/50 transition-colors duration-300"
-                >
-                  <p className="text-3xl md:text-4xl font-bold text-femar-orange">{stat.value}</p>
-                  <p className="text-sm text-white/70 mt-1">{stat.label}</p>
-                </motion.div>
-              ))}
+              {heroSection.stats.map((stat, i) => {
+                const Icon = statIconMap[stat.label] || Star;
+                const suffix = stat.value.includes('+') ? '+' : '';
+                return (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, delay: 1 + i * 0.15, type: 'spring' }}
+                    className="glass-card p-6 md:p-8 hover-glow group relative overflow-hidden"
+                  >
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-femar-orange/5 rounded-bl-full transition-all duration-500 group-hover:w-full group-hover:h-full group-hover:rounded-none group-hover:bg-femar-orange/10" />
+                    <Icon className="w-5 h-5 text-femar-orange mb-3" />
+                    <AnimatedCounter
+                      value={stat.value}
+                      suffix={suffix}
+                      className="block"
+                    />
+                    <p className="text-sm text-white/50 mt-2 font-medium">{stat.label}</p>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </div>
         </motion.div>
@@ -132,56 +186,72 @@ export default function HomePage() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
+          transition={{ delay: 2.5 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
         >
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-6 h-10 bg-white/20 rounded-full border border-white/30 flex items-start justify-center pt-2"
+            animate={{ y: [0, 12, 0] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-7 h-12 bg-white/10 rounded-full border border-white/20 flex items-start justify-center pt-3"
           >
             <motion.div
-              animate={{ opacity: [0.5, 1, 0.5] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="w-1.5 h-1.5 bg-white rounded-full"
+              animate={{ opacity: [0.3, 1, 0.3], y: [0, 4, 0] }}
+              transition={{ duration: 2.5, repeat: Infinity }}
+              className="w-1.5 h-1.5 bg-femar-orange rounded-full"
             />
           </motion.div>
         </motion.div>
       </section>
 
-      {/* ========== SERVICES SECTION ========== */}
-      <section id="servicios" className="py-20 md:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 bg-femar-orange/10 text-femar-orange rounded-full text-sm font-medium mb-4 border border-femar-orange/20">
-              Nuestros Servicios
+      {/* ========== SERVICES SECTION — BENTO GRID ========== */}
+      <section id="servicios" className="py-24 md:py-32 mesh-gradient-section relative overflow-hidden">
+        <div className="absolute inset-0 dot-pattern opacity-20 pointer-events-none" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection className="text-center mb-20">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/10 text-femar-orange rounded-full text-sm font-semibold mb-6 border border-femar-orange/20">
+              <Ship className="w-4 h-4" /> Nuestros Servicios
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-femar-navy mb-4">
-              Soluciones integrales para su <span className="text-femar-orange">comercio exterior</span>
+            <h2 className="text-4xl md:text-6xl font-bold text-femar-navy mb-6 tracking-tight">
+              Soluciones integrales para{"\n"}
+              <span className="gradient-text">comercio exterior</span>
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Desde transporte marítimo hasta despacho aduanero, cubrimos cada etapa de su cadena logística con profesionalismo y eficiencia.
             </p>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Bento-style grid: first row has large featured card + 2 small, second row has 2 small + large */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+            {/* Featured: Carga Marítima (large card) */}
             {services.map((service, i) => {
               const IconComp = iconMap[service.icon] || Ship;
+              const isLarge = i === 0 || i === 3;
               return (
-                <AnimatedSection key={service.slug} delay={i * 0.15}>
+                <AnimatedSection
+                  key={service.slug}
+                  delay={i * 0.12}
+                  className={isLarge ? 'md:col-span-2' : ''}
+                >
                   <Link href={`/servicios/${service.slug}`} className="group block">
-                    <div className="bg-white rounded-xl border border-border p-6 h-full hover:border-femar-orange/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                      <div className="w-14 h-14 bg-femar-navy/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-femar-orange transition-colors duration-300">
-                        <IconComp className="w-7 h-7 text-femar-navy group-hover:text-white transition-colors duration-300" />
-                      </div>
-                      <h3 className="text-xl font-bold text-femar-navy mb-2 group-hover:text-femar-orange transition-colors">
-                        {service.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                        {service.description}
-                      </p>
-                      <div className="flex items-center gap-2 text-femar-orange text-sm font-medium group-hover:gap-3 transition-all duration-200">
-                        Ver detalles <ArrowRight className="w-4 h-4" />
+                    <div className={`tilt-card glass-card-light p-8 h-full relative overflow-hidden hover-glow transition-all duration-500 ${isLarge ? 'min-h-[280px]' : 'min-h-[220px]'}`}>
+                      {/* Animated background shape */}
+                      <div className="absolute -right-12 -top-12 w-32 h-32 bg-femar-orange/5 rounded-full transition-all duration-700 group-hover:w-[400px] group-hover:h-[400px] group-hover:bg-femar-orange/8" />
+                      {/* Accent line */}
+                      <div className="absolute top-0 left-0 w-0 h-1 bg-femar-orange transition-all duration-500 group-hover:w-full" />
+
+                      <div className="relative tilt-card-inner">
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 ${isLarge ? 'bg-femar-navy text-white group-hover:bg-femar-orange' : 'bg-femar-orange/10 text-femar-orange group-hover:bg-femar-navy group-hover:text-white'}`}>
+                          <IconComp className="w-7 h-7" />
+                        </div>
+                        <h3 className={`font-bold mb-3 transition-colors duration-300 ${isLarge ? 'text-2xl md:text-3xl' : 'text-xl'} text-femar-navy group-hover:text-femar-orange`}>
+                          {service.title}
+                        </h3>
+                        <p className="text-muted-foreground leading-relaxed mb-6 text-sm md:text-base">
+                          {service.description}
+                        </p>
+                        <div className="flex items-center gap-2 text-femar-orange font-semibold group-hover:gap-4 transition-all duration-300">
+                          Ver servicio completo <ArrowRight className="w-5 h-5" />
+                        </div>
                       </div>
                     </div>
                   </Link>
@@ -192,43 +262,51 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ========== ABOUT SECTION ========== */}
-      <section id="nosotros" className="py-20 md:py-28 bg-femar-light">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* ========== ABOUT SECTION — PARALLAX LAYERS ========== */}
+      <section id="nosotros" className="py-24 md:py-32 mesh-gradient-hero relative overflow-hidden grid-pattern">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-[20%] w-[400px] h-[400px] bg-femar-orange/15 rounded-full blur-[80px] animate-float" />
+          <div className="absolute bottom-0 right-[10%] w-[300px] h-[300px] bg-white/5 rounded-full blur-[60px] animate-float-reverse" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <AnimatedSection direction="left">
-              <span className="inline-block px-4 py-1.5 bg-femar-orange/10 text-femar-orange rounded-full text-sm font-medium mb-4 border border-femar-orange/20">
-                Quiénes Somos
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/20 text-femar-orange rounded-full text-sm font-semibold mb-8 border border-femar-orange/30">
+                <Eye className="w-4 h-4" /> Quiénes Somos
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-femar-navy mb-6">
-                Más de 15 años construyendo <span className="text-femar-orange">confianza</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 tracking-tight">
+                Más de 15 años construyendo{"\n"}
+                <span className="gradient-text">confianza</span>
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+              <p className="text-lg text-white/70 leading-relaxed mb-10">
                 {aboutData.story}
               </p>
-              <Link
+              <MagneticButton
                 href="/quienes-somos"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-femar-navy text-white rounded-xl font-semibold hover:bg-femar-navy/90 transition-colors duration-200"
+                strength={0.3}
+                className="px-8 py-4 bg-femar-orange text-white rounded-xl font-bold text-lg shadow-lg shadow-femar-orange/30 flex items-center gap-3 no-underline"
               >
                 Conocer más <ArrowRight className="w-5 h-5" />
-              </Link>
+              </MagneticButton>
             </AnimatedSection>
 
             <AnimatedSection direction="right" delay={0.3}>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-5">
                 {aboutData.values.slice(0, 4).map((value, i) => {
                   const IconComp = iconMap[value.icon] || Star;
                   return (
                     <motion.div
                       key={value.name}
-                      className="bg-white rounded-xl p-5 border border-border hover:border-femar-orange/30 hover:shadow-lg transition-all duration-300"
-                      whileHover={{ y: -5 }}
+                      className="glass-card p-6 group relative overflow-hidden hover-glow"
+                      whileHover={{ y: -8, transition: { duration: 0.3 } }}
                     >
-                      <div className="w-10 h-10 bg-femar-orange/10 rounded-lg flex items-center justify-center mb-3">
-                        <IconComp className="w-5 h-5 text-femar-orange" />
+                      <div className="absolute bottom-0 left-0 w-0 h-1 bg-femar-orange transition-all duration-500 group-hover:w-full" />
+                      <div className="w-12 h-12 bg-femar-orange/15 rounded-xl flex items-center justify-center mb-4 group-hover:bg-femar-orange transition-colors duration-300">
+                        <IconComp className="w-6 h-6 text-femar-orange group-hover:text-white transition-colors duration-300" />
                       </div>
-                      <h4 className="font-semibold text-femar-navy text-sm mb-1">{value.name}</h4>
-                      <p className="text-xs text-muted-foreground">{value.description}</p>
+                      <h4 className="font-bold text-white text-base mb-2">{value.name}</h4>
+                      <p className="text-white/50 text-sm leading-relaxed">{value.description}</p>
                     </motion.div>
                   );
                 })}
@@ -239,35 +317,45 @@ export default function HomePage() {
       </section>
 
       {/* ========== TESTIMONIALS SECTION ========== */}
-      <section id="testimonios" className="py-20 md:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AnimatedSection className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 bg-femar-orange/10 text-femar-orange rounded-full text-sm font-medium mb-4 border border-femar-orange/20">
-              Testimonios
+      <section id="testimonios" className="py-24 md:py-32 mesh-gradient-light relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[20%] right-[5%] w-[300px] h-[300px] bg-femar-orange/5 rounded-full blur-[80px]" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection className="text-center mb-20">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/10 text-femar-orange rounded-full text-sm font-semibold mb-6 border border-femar-orange/20">
+              <Star className="w-4 h-4" /> Testimonios
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-femar-navy mb-4">
-              Lo que dicen nuestros <span className="text-femar-orange">clientes</span>
+            <h2 className="text-4xl md:text-6xl font-bold text-femar-navy mb-6 tracking-tight">
+              Lo que dicen nuestros{"\n"}
+              <span className="gradient-text">clientes</span>
             </h2>
           </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, i) => (
               <AnimatedSection key={testimonial.name} delay={i * 0.2}>
-                <div className="bg-white rounded-xl border border-border p-6 hover:border-femar-orange/30 hover:shadow-xl transition-all duration-300">
-                  <div className="flex items-center gap-1 mb-4">
+                <div className="glass-card-light p-8 relative overflow-hidden group hover-glow">
+                  {/* Animated gradient border on hover */}
+                  <div className="absolute top-0 left-0 right-0 h-0 bg-gradient-to-r from-femar-orange via-femar-orange-light to-femar-orange transition-all duration-500 group-hover:h-1" />
+                  {/* Quote icon */}
+                  <div className="text-femar-orange/20 text-6xl font-serif leading-none mb-4 select-none">&ldquo;</div>
+                  {/* Stars */}
+                  <div className="flex items-center gap-1 mb-5">
                     {[...Array(5)].map((_, j) => (
                       <Star key={j} className="w-4 h-4 text-femar-orange fill-femar-orange" />
                     ))}
                   </div>
-                  <p className="text-muted-foreground leading-relaxed mb-6 italic">
-                    &ldquo;{testimonial.text}&rdquo;
+                  <p className="text-muted-foreground leading-relaxed mb-8 text-base italic">
+                    {testimonial.text}
                   </p>
-                  <div className="flex items-center gap-3 pt-4 border-t border-border">
-                    <div className="w-10 h-10 bg-femar-navy rounded-full flex items-center justify-center text-white font-bold text-sm">
+                  <div className="flex items-center gap-4 pt-6 border-t border-border/50">
+                    <div className="w-12 h-12 bg-femar-navy rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-femar-navy/20">
                       {testimonial.name.split(' ').map(n => n[0]).join('')}
                     </div>
                     <div>
-                      <p className="font-semibold text-femar-navy text-sm">{testimonial.name}</p>
+                      <p className="font-bold text-femar-navy">{testimonial.name}</p>
                       <p className="text-xs text-muted-foreground">{testimonial.role} — {testimonial.company}</p>
                     </div>
                   </div>
@@ -279,33 +367,39 @@ export default function HomePage() {
       </section>
 
       {/* ========== CONTACT CTA SECTION ========== */}
-      <section id="contacto-cta" className="py-20 md:py-28 bg-gradient-to-br from-femar-navy via-femar-navy to-femar-dark relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-femar-orange rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-femar-orange/50 rounded-full blur-3xl" />
+      <section id="contacto-cta" className="py-24 md:py-32 mesh-gradient-hero relative overflow-hidden grid-pattern">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[30%] -left-10 w-[500px] h-[500px] bg-femar-orange/20 rounded-full blur-[100px] animate-float" />
+          <div className="absolute bottom-[10%] -right-10 w-[400px] h-[400px] bg-femar-orange/10 rounded-full blur-[80px] animate-float-reverse" />
         </div>
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <AnimatedSection>
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-              ¿Necesita una <span className="text-femar-orange">cotización</span>?
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-femar-orange/20 text-femar-orange rounded-full text-sm font-semibold mb-8 border border-femar-orange/30">
+              <Phone className="w-4 h-4" /> Cotización Gratis
+            </span>
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
+              ¿Necesita una{"\n"}
+              <span className="gradient-text">cotización</span>?
             </h2>
-            <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-white/70 mb-10 max-w-2xl mx-auto leading-relaxed">
               Contacte con nuestro equipo hoy. Le responderemos en menos de 24 horas con una propuesta adaptada a sus necesidades logísticas.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
+            <div className="flex flex-wrap justify-center gap-5">
+              <MagneticButton
                 href="/contacto"
-                className="px-8 py-4 bg-femar-orange text-white rounded-xl font-semibold text-lg hover:bg-femar-orange/90 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2"
+                strength={0.4}
+                className="px-10 py-5 bg-femar-orange text-white rounded-xl font-bold text-lg shadow-lg shadow-femar-orange/30 flex items-center gap-3 no-underline"
               >
                 Contactar ahora <ArrowRight className="w-5 h-5" />
-              </Link>
-              <a
+              </MagneticButton>
+              <MagneticButton
                 href={`tel:${siteConfig.phone}`}
-                className="px-8 py-4 bg-white/10 text-white rounded-xl font-semibold text-lg hover:bg-white/20 transition-all duration-200 border border-white/20 flex items-center gap-2"
+                strength={0.3}
+                className="px-10 py-5 bg-white/8 text-white rounded-xl font-bold text-lg border border-white/15 flex items-center gap-3 no-underline hover:bg-white/15"
               >
                 <Phone className="w-5 h-5" /> Llamar ahora
-              </a>
+              </MagneticButton>
             </div>
           </AnimatedSection>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { siteConfig, navItems } from '@/config/site';
@@ -31,26 +31,39 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-border'
+          ? 'bg-white/80 backdrop-blur-xl shadow-lg shadow-femar-navy/5 border-b border-femar-navy/5'
           : 'bg-transparent'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-18 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-femar-navy rounded-lg flex items-center justify-center group-hover:bg-femar-orange transition-colors duration-300">
-              <Ship className="w-6 h-6 text-white" />
-            </div>
-            <span
-              className={`text-xl font-bold transition-colors duration-300 ${
-                scrolled ? 'text-femar-navy' : 'text-white'
-              }`}
+          <Link href="/" className="flex items-center gap-3 group">
+            <motion.div
+              className="w-11 h-11 bg-femar-navy rounded-xl flex items-center justify-center group-hover:bg-femar-orange transition-all duration-300 shadow-lg shadow-femar-navy/20 group-hover:shadow-femar-orange/30"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              FEMAR
-            </span>
+              <Ship className="w-6 h-6 text-white" />
+            </motion.div>
+            <div className="flex flex-col">
+              <span
+                className={`text-xl font-bold tracking-tight transition-colors duration-300 ${
+                  scrolled ? 'text-femar-navy' : 'text-white'
+                }`}
+              >
+                FEMAR
+              </span>
+              <span
+                className={`text-[10px] font-medium tracking-widest uppercase transition-colors duration-300 ${
+                  scrolled ? 'text-femar-orange' : 'text-femar-orange'
+                }`}
+              >
+                LOGISTICS
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Nav */}
@@ -64,38 +77,46 @@ export default function Navbar() {
               >
                 <Link
                   href={item.href}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-1 ${
+                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-1.5 ${
                     isActive(item.href)
                       ? scrolled
-                        ? 'text-femar-orange bg-femar-orange/10'
-                        : 'text-femar-orange bg-white/10'
+                        ? 'text-femar-orange'
+                        : 'text-femar-orange'
                       : scrolled
-                        ? 'text-femar-navy hover:text-femar-orange hover:bg-femar-orange/5'
-                        : 'text-white/90 hover:text-white hover:bg-white/10'
+                        ? 'text-femar-navy/70 hover:text-femar-orange'
+                        : 'text-white/70 hover:text-white'
                   }`}
                 >
                   {item.label}
-                  {item.children && <ChevronDown className="w-4 h-4" />}
+                  {item.children && <ChevronDown className="w-3.5 h-3.5" />}
+                  {/* Active indicator dot */}
+                  {isActive(item.href) && (
+                    <motion.div
+                      layoutId="nav-indicator"
+                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-5 h-1 bg-femar-orange rounded-full"
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                    />
+                  )}
                 </Link>
 
-                {/* Dropdown */}
+                {/* Dropdown with glass effect */}
                 <AnimatePresence>
                   {item.children && activeDropdown === item.slug && (
                     <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
+                      initial={{ opacity: 0, y: -8, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -8, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-border overflow-hidden"
+                      className="absolute top-full left-0 mt-2 w-56 bg-white/90 backdrop-blur-xl rounded-xl shadow-xl shadow-femar-navy/10 border border-femar-navy/8 overflow-hidden"
                     >
                       {item.children.map((child) => (
                         <Link
                           key={child.href}
                           href={child.href}
-                          className={`block px-4 py-3 text-sm transition-colors duration-200 ${
+                          className={`block px-5 py-3.5 text-sm transition-all duration-200 ${
                             isActive(child.href)
                               ? 'text-femar-orange bg-femar-orange/5 font-medium'
-                              : 'text-femar-navy hover:text-femar-orange hover:bg-femar-orange/5'
+                              : 'text-femar-navy/70 hover:text-femar-orange hover:bg-femar-orange/5'
                           }`}
                         >
                           {child.label}
@@ -109,33 +130,36 @@ export default function Navbar() {
           </div>
 
           {/* Phone + CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             <a
               href={`tel:${siteConfig.phone}`}
               className={`flex items-center gap-2 text-sm font-medium transition-colors duration-300 ${
-                scrolled ? 'text-femar-navy' : 'text-white/90'
+                scrolled ? 'text-femar-navy/70' : 'text-white/70'
               }`}
             >
               <Phone className="w-4 h-4" />
-              {siteConfig.phone}
+              <span className="hidden lg:inline">{siteConfig.phone}</span>
             </a>
-            <Link
-              href="/contacto"
-              className="px-5 py-2.5 bg-femar-orange text-white rounded-lg text-sm font-semibold hover:bg-femar-orange/90 transition-all duration-200 shadow-md hover:shadow-lg"
-            >
-              Cotización Gratis
-            </Link>
+            <MagneticButtonWrapper>
+              <Link
+                href="/contacto"
+                className="px-6 py-2.5 bg-femar-orange text-white rounded-lg text-sm font-bold shadow-md shadow-femar-orange/30 hover:bg-femar-orange-light transition-colors duration-200 inline-flex items-center gap-2"
+              >
+                Cotización Gratis
+              </Link>
+            </MagneticButtonWrapper>
           </div>
 
           {/* Mobile toggle */}
-          <button
+          <motion.button
             onClick={() => setIsOpen(!isOpen)}
-            className={`md:hidden p-2 rounded-lg transition-colors ${
-              scrolled ? 'text-femar-navy' : 'text-white'
+            className={`md:hidden p-2.5 rounded-lg transition-colors ${
+              scrolled ? 'text-femar-navy hover:bg-femar-navy/5' : 'text-white hover:bg-white/10'
             }`}
+            whileTap={{ scale: 0.9 }}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          </motion.button>
         </div>
 
         {/* Mobile Nav */}
@@ -146,7 +170,7 @@ export default function Navbar() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden bg-white rounded-xl shadow-xl mt-2 overflow-hidden border border-border"
+              className="md:hidden bg-white/95 backdrop-blur-xl rounded-xl shadow-xl mt-2 overflow-hidden border border-femar-navy/8"
             >
               <div className="py-4 px-4 space-y-1">
                 {navItems.map((item) => (
@@ -156,8 +180,8 @@ export default function Navbar() {
                       onClick={() => setIsOpen(false)}
                       className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                         isActive(item.href)
-                          ? 'text-femar-orange bg-femar-orange/10'
-                          : 'text-femar-navy hover:text-femar-orange hover:bg-femar-orange/5'
+                          ? 'text-femar-orange bg-femar-orange/8'
+                          : 'text-femar-navy/70 hover:text-femar-orange hover:bg-femar-orange/5'
                       }`}
                     >
                       {item.label}
@@ -169,10 +193,10 @@ export default function Navbar() {
                             key={child.href}
                             href={child.href}
                             onClick={() => setIsOpen(false)}
-                            className={`block px-4 py-2 rounded-lg text-sm transition-colors ${
+                            className={`block px-4 py-2.5 rounded-lg text-sm transition-colors ${
                               isActive(child.href)
-                                ? 'text-femar-orange bg-femar-orange/10'
-                                : 'text-femar-navy/70 hover:text-femar-orange'
+                                ? 'text-femar-orange bg-femar-orange/8 font-medium'
+                                : 'text-femar-navy/50 hover:text-femar-orange'
                             }`}
                           >
                             {child.label}
@@ -182,11 +206,11 @@ export default function Navbar() {
                     )}
                   </div>
                 ))}
-                <div className="pt-3 border-t border-border">
+                <div className="pt-4 border-t border-femar-navy/8">
                   <Link
                     href="/contacto"
                     onClick={() => setIsOpen(false)}
-                    className="block w-full px-4 py-3 bg-femar-orange text-white rounded-lg text-sm font-semibold text-center hover:bg-femar-orange/90 transition-colors"
+                    className="block w-full px-4 py-3 bg-femar-orange text-white rounded-lg text-sm font-bold text-center hover:bg-femar-orange-light transition-colors shadow-md shadow-femar-orange/20"
                   >
                     Cotización Gratis
                   </Link>
@@ -197,5 +221,32 @@ export default function Navbar() {
         </AnimatePresence>
       </nav>
     </header>
+  );
+}
+
+// Simple wrapper for magnetic effect on nav CTA
+function MagneticButtonWrapper({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    setPosition({ x: (e.clientX - centerX) * 0.2, y: (e.clientY - centerY) * 0.2 });
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => setPosition({ x: 0, y: 0 })}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+      className="inline-block"
+    >
+      {children}
+    </motion.div>
   );
 }
