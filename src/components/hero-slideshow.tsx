@@ -1,86 +1,30 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-// Professional gradient backgrounds that simulate logistics imagery
-const heroSlides = [
-  {
-    gradient: 'linear-gradient(135deg, #0c2340 0%, #1a3a5c 40%, #0a1628 100%)',
-    accent: 'radial-gradient(ellipse 80% 50% at 30% 40%, rgba(232,119,34,0.15) 0%, transparent 50%)',
-    label: 'Logística Global',
-  },
-  {
-    gradient: 'linear-gradient(135deg, #0a1628 0%, #0c2340 50%, #1a3a5c 100%)',
-    accent: 'radial-gradient(ellipse 70% 60% at 70% 30%, rgba(232,119,34,0.12) 0%, transparent 50%)',
-    label: 'Carga Marítima',
-  },
-  {
-    gradient: 'linear-gradient(135deg, #1a3a5c 0%, #0c2340 60%, #0a1628 100%)',
-    accent: 'radial-gradient(ellipse 60% 50% at 50% 60%, rgba(232,119,34,0.10) 0%, transparent 50%)',
-    label: 'Despacho Aduanero',
-  },
-  {
-    gradient: 'linear-gradient(135deg, #0c2340 0%, #0a1628 40%, #1a3a5c 100%)',
-    accent: 'radial-gradient(ellipse 80% 40% at 20% 70%, rgba(232,119,34,0.08) 0%, transparent 50%)',
-    label: 'Carga Terrestre',
-  },
-];
+import Image from 'next/image';
 
 interface HeroSlideshowProps {
   className?: string;
 }
 
 export default function HeroSlideshow({ className = '' }: HeroSlideshowProps) {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  const nextSlide = useCallback(() => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    setTimeout(() => setIsTransitioning(false), 1500);
-  }, [isTransitioning]);
-
-  // Auto-rotate every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(nextSlide, 5000);
-    return () => clearInterval(interval);
-  }, [nextSlide]);
-
   return (
     <div className={`absolute inset-0 overflow-hidden ${className}`}>
-      {/* Slideshow backgrounds */}
-      <AnimatePresence mode="popLayout">
-        <motion.div
-          key={currentSlide}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.05 }}
-          transition={{ duration: 1.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="absolute inset-0"
-          style={{
-            background: heroSlides[currentSlide].gradient,
-          }}
-        />
-      </AnimatePresence>
+      {/* Full-bleed background image */}
+      <Image
+        src="/images/fermar-fondo-horizontal.webp"
+        alt="FERMAR Logística & Aduanas — fondo corporativo"
+        fill
+        priority
+        quality={95}
+        sizes="100vw"
+        className="object-cover object-center"
+        style={{ objectFit: 'cover', objectPosition: 'center' }}
+      />
 
-      {/* Accent glow overlay for current slide */}
-      <AnimatePresence mode="popLayout">
-        <motion.div
-          key={`accent-${currentSlide}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.5 }}
-          className="absolute inset-0"
-          style={{
-            background: heroSlides[currentSlide].accent,
-          }}
-        />
-      </AnimatePresence>
+      {/* Dark overlay to ensure text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-femar-navy/70 via-femar-navy/50 to-femar-dark/80" />
 
-      {/* Persistent animated mesh blobs */}
+      {/* Accent glow overlays */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[15%] left-[10%] w-[500px] h-[500px] bg-femar-orange/20 rounded-full blur-[100px] animate-float" />
         <div className="absolute bottom-[20%] right-[5%] w-[400px] h-[400px] bg-femar-orange/10 rounded-full blur-[80px] animate-float-reverse" />
@@ -112,37 +56,6 @@ export default function HeroSlideshow({ className = '' }: HeroSlideshowProps) {
         backgroundRepeat: 'repeat',
         backgroundSize: '200px 200px',
       }} />
-
-      {/* Slide indicators (bottom) */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 pointer-events-none md:pointer-events-auto md:bottom-8">
-        {heroSlides.map((slide, i) => (
-          <button
-            key={i}
-            onClick={() => { setCurrentSlide(i); setIsTransitioning(true); setTimeout(() => setIsTransitioning(false), 1500); }}
-            className="group pointer-events-auto"
-          >
-            <div className={`h-1 rounded-full transition-all duration-500 ${
-              i === currentSlide
-                ? 'w-8 bg-femar-orange shadow-sm shadow-femar-orange'
-                : 'w-3 bg-white/20 hover:bg-white/40'
-            }`} />
-          </button>
-        ))}
-      </div>
-
-      {/* Current slide label (fades in/out) */}
-      <AnimatePresence mode="popLayout">
-        <motion.div
-          key={`label-${currentSlide}`}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.8 }}
-          className="absolute bottom-8 right-8 text-white/30 text-xs font-medium tracking-widest uppercase hidden md:block"
-        >
-          {heroSlides[currentSlide].label}
-        </motion.div>
-      </AnimatePresence>
     </div>
   );
 }
