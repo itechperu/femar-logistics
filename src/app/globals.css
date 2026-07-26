@@ -410,9 +410,12 @@
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* Ensure content doesn't overlap bottom nav on mobile */
+/* Mobile-first: prevent content from being hidden behind bottom nav */
 @media (max-width: 768px) {
-  .pb-0 { padding-bottom: 0 !important; }
+  /* Hero section should account for bottom nav */
+  section[id="hero"] .relative {
+    padding-bottom: 5rem;
+  }
 }
 
 /* ==============================

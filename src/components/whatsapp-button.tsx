@@ -13,7 +13,7 @@ export default function WhatsAppButton() {
       href={siteConfig.whatsappLink}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-40 md:bottom-6 md:right-6 group"
+      className="fixed bottom-8 right-8 z-40 hidden md:flex group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       initial={{ scale: 0, opacity: 0 }}
@@ -28,9 +28,9 @@ export default function WhatsAppButton() {
       <motion.div
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="relative w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-xl shadow-green-500/30"
+        className="relative w-14 h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-xl shadow-green-500/30"
       >
-        <MessageCircle className="w-7 h-7 md:w-8 md:h-8 text-white fill-white" />
+        <MessageCircle className="w-7 h-7 lg:w-8 lg:h-8 text-white fill-white" />
       </motion.div>
 
       {/* Tooltip */}
@@ -40,7 +40,7 @@ export default function WhatsAppButton() {
             initial={{ opacity: 0, x: -10, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: -10, scale: 0.9 }}
-            className="absolute right-full mr-3 bg-white rounded-xl shadow-lg shadow-femar-navy/10 text-femar-navy px-5 py-2.5 font-semibold text-sm whitespace-nowrap hidden md:block border border-femar-navy/5"
+            className="absolute right-full mr-3 bg-white rounded-xl shadow-lg shadow-femar-navy/10 text-femar-navy px-5 py-2.5 font-semibold text-sm whitespace-nowrap border border-femar-navy/5"
           >
             <span className="text-green-600">WhatsApp</span> {siteConfig.whatsappNumber}
           </motion.div>
