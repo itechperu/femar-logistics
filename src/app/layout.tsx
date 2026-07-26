@@ -5,6 +5,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import WhatsAppButton from "@/components/whatsapp-button";
 import MobileBottomNav from "@/components/mobile-bottom-nav";
+import ReadingProgressBar from "@/components/reading-progress-bar";
 import { siteConfig } from "@/config/site";
 
 const geistSans = Geist({
@@ -57,6 +58,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
+        <ReadingProgressBar />
         <div className="min-h-screen flex flex-col">
           <Navbar />
           <main className="flex-1 pb-0 md:pb-0">{children}</main>
